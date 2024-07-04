@@ -7,9 +7,8 @@
             background-image: url("https://images.pexels.com/photos/50695/rain-after-the-rain-a-drop-of-drop-of-rain-50695.jpeg");
         }
     </style>
-    <link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
-    <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+    <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
 </head>
 <body>
     <html lang="ru">
@@ -53,21 +52,26 @@
                 <option value="" selected disabled>Auswahl</option>
                 <!-- Каналы будут добавлены динамически -->
             </select>
-            <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" width="640" height="268" data-setup='{}'>
+            <video id="videoPlayer" controls>
                 Ваш браузер не поддерживает элемент <code>video</code>.
             </video>
         </div>
         <script>
             const channelSelect = document.getElementById('channelSelect');
-            const videoPlayer = videojs('videoPlayer');
+            const videoPlayer = Plyr.setup('#videoPlayer')[0];
 
             // Функция для изменения канала
             function changeChannel() {
                 const selectedUrl = channelSelect.value;
-                videoPlayer.src({
-                    src: selectedUrl,
-                    type: 'application/x-mpegURL'
-                });
+                videoPlayer.source = {
+                    type: 'video',
+                    sources: [
+                        {
+                            src: selectedUrl,
+                            type: 'application/x-mpegURL',
+                        },
+                    ],
+                };
                 videoPlayer.play();
             }
 
@@ -134,6 +138,7 @@
     </html>
 </body>
 </html>
+
 
 <!DOCTYPE html>
 <html lang="ru">
